@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -32,19 +32,36 @@
 }
 
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
+    [self.tasks addObject:self.textField.text];
+    NSLog(@"Added object to tasks array: %@", self.tasks );
+    
+    [self.tableView reloadData];
+    
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.textField = textField;
     
 }
 
 
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.textField.text = @"";
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return self.tasks.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
-    [self.tasks addObject:self.textField.text];
+    NSLog(@"Object at index %li, : %@", indexPath.row, [self.tasks objectAtIndex:indexPath.row]);
+    cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
+    
     return cell;
 }
 @end
