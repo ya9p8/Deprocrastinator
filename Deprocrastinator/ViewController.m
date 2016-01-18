@@ -12,7 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property NSMutableArray *tasks;
 
 
 @end
@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.tasks = [[NSMutableArray alloc] init];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,6 +32,7 @@
 }
 
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
+    
 }
 
 
@@ -41,6 +44,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
+    [self.tasks addObject:self.textField.text];
     return cell;
 }
 @end
