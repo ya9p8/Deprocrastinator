@@ -9,8 +9,11 @@
 #import "ViewController.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+
 
 @end
 
@@ -25,10 +28,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)onAddButtonPressed:(UIBarButtonItem *)sender {
-    
-    //self.tableView
+
+
+- (IBAction)onAddButtonPressed:(UIButton *)sender {
 }
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
