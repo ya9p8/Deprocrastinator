@@ -15,6 +15,7 @@
 @property NSMutableArray *tasks;
 
 
+
 @end
 
 @implementation ViewController
@@ -34,13 +35,15 @@
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
     [self.tasks addObject:self.textField.text];
     NSLog(@"Added object to tasks array: %@", self.tasks );
-    
+    self.textField.text = @"";
+    [self.view endEditing:YES];
     [self.tableView reloadData];
     
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
+
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
     self.textField = textField;
     
 }
@@ -48,7 +51,7 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    self.textField.text = @"";
+//    self.textField.text 
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

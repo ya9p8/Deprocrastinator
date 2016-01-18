@@ -29,6 +29,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="rf9-l5-wgm" appends="YES" id="jRU-X0-WZL"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -127,11 +131,17 @@
                     <navigationItem key="navigationItem" title="To-Do Items" id="vQ0-6f-PK1"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cell" destination="hiH-T5-3uu" id="yu6-qe-t58"/>
                         <outlet property="tableView" destination="zVH-Yt-uFg" id="kck-BT-xOZ"/>
                         <outlet property="textField" destination="b6j-gg-uFh" id="6OK-1X-LEo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rf9-l5-wgm">
+                    <connections>
+                        <action selector="onCellTapped:" destination="BYZ-38-t0r" id="d9L-PK-vRW"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1089" y="267"/>
         </scene>
