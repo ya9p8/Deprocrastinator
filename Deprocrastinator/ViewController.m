@@ -60,11 +60,12 @@
 }
 
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.tasks removeObjectAtIndex:indexPath.row];
-    [self.tableView reloadData];
-    
+- (IBAction)onSwipeRight:(UISwipeGestureRecognizer *)sender {
+    if (sender.state == UISwipeGestureRecognizerDirectionRight) {
+        CGPoint location = [sender locationInView:self.tableView];
+        NSIndexPath *index = [self.tableView indexPathForRowAtPoint:location];
+        [self.tableView cellForRowAtIndexPath:index].backgroundColor = [UIColor greenColor];
+    }
 }
 
 
@@ -73,9 +74,15 @@
 
 
 
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tasks removeObjectAtIndex:indexPath.row];
+    [self.tableView reloadData];
+}
+
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     self.textField = textField;
-    
 }
 
 
