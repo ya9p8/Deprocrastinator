@@ -34,7 +34,7 @@
 
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
     [self.tasks addObject:self.textField.text];
-    NSLog(@"Added object to tasks array: %@", self.tasks );
+   // NSLog(@"Added object to tasks array: %@", self.tasks );
     self.textField.text = @"";
     [self.view endEditing:YES];
     [self.tableView reloadData];
@@ -62,9 +62,22 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
-    NSLog(@"Object at index %li, : %@", indexPath.row, [self.tasks objectAtIndex:indexPath.row]);
+    //NSLog(@"Object at index %li, : %@", indexPath.row, [self.tasks objectAtIndex:indexPath.row]);
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
+    //cell.textLabel.textColor = [UIColor greenColor];
     
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell setTextColor:[UIColor greenColor]];
+    
+    [tableView reloadData];
+    
+    
+    
+}
+
 @end
