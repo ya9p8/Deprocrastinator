@@ -60,7 +60,12 @@
 }
 
 
-
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tasks removeObjectAtIndex:indexPath.row];
+    [self.tableView reloadData];
+    
+}
 
 
 
