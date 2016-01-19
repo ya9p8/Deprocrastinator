@@ -8,12 +8,13 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSMutableArray *tasks;
-
+@property NSMutableArray *taskColors;
+//@property NSMutableArray *tasksWithAttributes;
 
 
 @end
@@ -24,6 +25,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.tasks = [[NSMutableArray alloc] init];
+    self.taskColors = [NSMutableArray new];
+    
     
 }
 
@@ -33,7 +36,9 @@
 }
 
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
+
     [self.tasks addObject:self.textField.text];
+    [self.taskColors addObject:self.textField.textColor];
    // NSLog(@"Added object to tasks array: %@", self.tasks );
     self.textField.text = @"";
     [self.view endEditing:YES];
@@ -61,7 +66,7 @@
 
 
 - (IBAction)onSwipeRight:(UISwipeGestureRecognizer *)sender {
-    NSLog(@"Hey I can swipe: %ld", (long)sender.state);
+    //NSLog(@"Hey I can swipe: %ld", (long)sender.state);
     
     CGPoint location = [sender locationInView:self.tableView];
     //NSLog(@"I swiped right! Here is my location: %@", NSStringFromCGPoint(location));
@@ -92,9 +97,12 @@
     UIAlertAction *deleteButton = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
     {
         [self.tasks removeObjectAtIndex:indexPath.row];
+        [self.taskColors removeObjectAtIndex:indexPath.row];
         [self.tableView reloadData];
     }];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [deleteConfirmation addAction:deleteButton];
+    [deleteConfirmation addAction:cancelButton];
     [self presentViewController:deleteConfirmation animated:YES completion:nil];
     
     
@@ -102,7 +110,8 @@
     
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField {
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
     self.textField = textField;
 }
 
@@ -120,9 +129,9 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
-    //NSLog(@"Object at index %li, : %@", indexPath.row, [self.tasks objectAtIndex:indexPath.row]);
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
-    //cell.textLabel.textColor = [UIColor greenColor];
+    cell.textLabel.textColor = [self.taskColors objectAtIndex:indexPath.row];
+    
     
     return cell;
 }
@@ -130,8 +139,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell setTextColor:[UIColor greenColor]];
-    
+    cell.textLabel.textColor =[UIColor greenColor];
+    [self.taskColors replaceObjectAtIndex:indexPath.row withObject:[UIColor greenColor]];
     [tableView reloadData];
 
 }
@@ -149,4 +158,5 @@
     
     [self.tableView reloadData];
 }
+
 @end
