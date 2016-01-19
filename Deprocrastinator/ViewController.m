@@ -61,24 +61,45 @@
 
 
 - (IBAction)onSwipeRight:(UISwipeGestureRecognizer *)sender {
-    if (sender.state == UISwipeGestureRecognizerDirectionRight) {
-        CGPoint location = [sender locationInView:self.tableView];
-        NSIndexPath *index = [self.tableView indexPathForRowAtPoint:location];
+    NSLog(@"Hey I can swipe: %ld", (long)sender.state);
+    
+    CGPoint location = [sender locationInView:self.tableView];
+    //NSLog(@"I swiped right! Here is my location: %@", NSStringFromCGPoint(location));
+    NSIndexPath *index = [self.tableView indexPathForRowAtPoint:location];
+    
+    
+    
+    if([self.tableView cellForRowAtIndexPath:index].backgroundColor == [UIColor greenColor])
+    {
+        [self.tableView cellForRowAtIndexPath:index].backgroundColor = [UIColor yellowColor];
+    }
+    else if([self.tableView cellForRowAtIndexPath:index].backgroundColor == [UIColor yellowColor])
+    {
+        [self.tableView cellForRowAtIndexPath:index].backgroundColor = [UIColor redColor];
+    }
+    else
+    {
         [self.tableView cellForRowAtIndexPath:index].backgroundColor = [UIColor greenColor];
     }
+
 }
 
 
 
-
-
-
-
-
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.tasks removeObjectAtIndex:indexPath.row];
-    [self.tableView reloadData];
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIAlertController *deleteConfirmation = [UIAlertController alertControllerWithTitle:@"Delete Task" message:@"Are you sure you want to delete?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *deleteButton = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+    {
+        [self.tasks removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+    }];
+    [deleteConfirmation addAction:deleteButton];
+    [self presentViewController:deleteConfirmation animated:YES completion:nil];
+    
+    
+    
+    
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -112,9 +133,20 @@
     [cell setTextColor:[UIColor greenColor]];
     
     [tableView reloadData];
-    
-    
-    
+
 }
 
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    NSString *task = [self.tasks objectAtIndex:sourceIndexPath.row];
+    [self.tasks removeObject:task];
+    [self.tasks insertObject:task atIndex:destinationIndexPath.row];
+    
+    [self.tableView reloadData];
+}
 @end
